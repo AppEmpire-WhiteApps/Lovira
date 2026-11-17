@@ -1,0 +1,28 @@
+# Local AI Generator state and artifacts
+/.aigenerator/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Personal Xcode state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Build output and Swift Package caches
+/build/
+/DerivedData/
+.build/
+*.xcresult/
+*.xcarchive/
+*.dSYM/
+*.dSYM.zip
+
+# Local environment files (keep templates)
+.env
+.env.*
+!.env.example
+!.env.sample

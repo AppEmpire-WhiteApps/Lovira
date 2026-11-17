@@ -1,0 +1,126 @@
+{
+  "title": "Privacy Policy",
+  "effectiveDate": "2026-11-17",
+  "sections": [
+    {
+      "title": "Application and Service Provider",
+      "paragraphs": [
+        "This privacy policy applies to the Lovira app for mobile devices, together with any related services operated by Marissa (collectively, the \"Application\"). Marissa is hereby referred to as the \"Service Provider\".",
+        "Lovira provides conversations and roleplay with fictional, AI-generated companions, including optional voice and image features. The Application is intended only for adults aged 18 or older. AI companions are not real people, and conversations are not a substitute for professional advice or emergency assistance."
+      ]
+    },
+    {
+      "title": "Information Collection and Use",
+      "paragraphs": [
+        "The Application and the service providers it connects to collect information when you download and use it. Depending on the feature used, this may include your device's Internet Protocol address, mobile operating system, app and device identifiers, the screens or features you visit, the time and date of use, and the time spent in the Application. This information supports operation, service delivery, security, diagnostics and improvement of the Application.",
+        "Information you provide may include your chosen name, messages, character descriptions and preferences, and photos or voice recordings you choose to submit. Lovira stores chat history, companion memory, created characters, generated or saved media, settings and usage information locally on your device.",
+        "To provide AI features, the Application sends relevant content to LLMApps and the AI services used through it. This can include your current message, relevant conversation history, your chosen name, remembered facts, character descriptions, scenario instructions and generation prompts. Selected photos can be sent for image understanding; recorded voice messages can be sent for transcription; text can be sent for speech generation; and generation prompts can be sent to create images. Not every request sends every category of information.",
+        "Photo selection, microphone recording and saving media use the relevant device features and permissions when required. The Application does not require you to upload your photo library to chat. Cloud-generated speech may be played from a local cache; if cloud speech is unavailable, the Application may use the device's speech synthesizer instead.",
+        "AI requests are not limited to aggregated or anonymized data. Do not submit highly sensitive information or another person's personal information without the necessary permission or legal basis. Lovira does not provide a public posting or user-to-user messaging feature; your messages are nevertheless processed by the AI providers needed to deliver the selected features.",
+        "Apple and Apphud process information needed to offer, validate, restore and manage purchases and subscriptions, including purchase or transaction information, subscription status, and app, device or customer identifiers. Payment card details are handled by Apple's payment system rather than entered directly in Lovira.",
+        "The Service Provider may use contact information you provide to respond to support requests, send important information and required notices, and, where permitted by law and with any required consent, marketing communications. The Application does not include advertising."
+      ]
+    },
+    {
+      "title": "Cookies and Tracking Technologies",
+      "paragraphs": [
+        "The Application or its third-party SDKs may use SDK identifiers, local storage, cookies, pixels or similar technologies where applicable to support functionality, analytics or service delivery. Where required by applicable law, the Service Provider will obtain consent before using non-essential tracking technologies. Essential service, security and purchase functionality may operate on another lawful basis."
+      ]
+    },
+    {
+      "title": "Your Rights",
+      "paragraphs": [
+        "You may request access to, correction of, or deletion of your personal data held by the Service Provider. To exercise these rights, or to withdraw consent where processing is based on consent, contact the Service Provider at recruitment@marissagallagher.com.",
+        "Depending on applicable law, you may also have rights to restrict or object to processing, receive a portable copy of your information, or complain to a competent data protection authority. Requests may require reasonable verification of your identity and are subject to applicable legal exceptions. For information held independently by Apple, Apphud or an AI provider, their own privacy practices and rights procedures may also apply."
+      ]
+    },
+    {
+      "title": "Your California Privacy Rights (CCPA/CPRA)",
+      "paragraphs": [
+        "If you are a California resident, you have the right, where applicable, to know what personal information is collected, the right to delete or correct personal information, the right to opt out of the sale or sharing of personal information, and the right to non-discrimination for exercising these rights. Applicable law may also provide a right to limit certain uses of sensitive personal information. To exercise your CCPA/CPRA rights, contact the Service Provider at recruitment@marissagallagher.com."
+      ]
+    },
+    {
+      "title": "Third Party Access",
+      "paragraphs": [
+        "The Service Provider uses third-party services to operate the Application and deliver selected features. These include LLMApps and its underlying AI service providers for AI conversations, memory extraction, transcription and media generation, and Apple and Apphud for purchases and subscription management. Depending on the service, they receive the request content or technical and transaction information described above, not only aggregated or anonymized information.",
+        "Aggregated or anonymized information may also be shared to improve the Application and its services. The Service Provider may share information with third parties in the ways described in this policy. Third-party services may process and retain information under their own terms and privacy policies; this policy does not promise that the Service Provider controls all of their systems, retention periods or independent processing."
+      ]
+    },
+    {
+      "title": "International Data Transfers",
+      "paragraphs": [
+        "The Service Provider or its third-party service providers may transfer personal data to countries outside your country of residence, including outside the European Economic Area (EEA). Where applicable law requires safeguards for international transfers, the Service Provider will use appropriate mechanisms.",
+        "These mechanisms may include Standard Contractual Clauses (SCCs) approved by the European Commission, adequacy decisions or other legally recognized transfer mechanisms, and your consent where required and legally permitted.",
+        "Data protection laws in other countries may differ from those in your jurisdiction. Where required by law, the Service Provider will apply appropriate safeguards and obtain any consent required for the transfer."
+      ]
+    },
+    {
+      "title": "Disclosure of Information",
+      "paragraphs": [
+        "The Service Provider may disclose User Provided and Automatically Collected Information as required by law, such as to comply with a subpoena or similar legal process.",
+        "Information may also be disclosed when the Service Provider believes in good faith that disclosure is necessary to protect their rights, protect your safety or the safety of others, investigate fraud, or respond to a government request.",
+        "Information may be disclosed to trusted service providers who work on the Service Provider's behalf, do not have an independent use of the information disclosed to them, and have agreed to adhere to applicable confidentiality and data protection requirements. Where a third party acts independently, its own terms and privacy obligations also apply."
+      ]
+    },
+    {
+      "title": "Opt-Out Rights and Local Controls",
+      "paragraphs": [
+        "You can stop further collection by the Application from your device by uninstalling it. You can also stop using optional AI features or revoke applicable microphone or photo permissions in your device settings. These actions do not automatically delete information that has already been transmitted to the Service Provider or to third parties.",
+        "The profile's Delete all data action removes locally stored chats, memories, created characters and saved media and resets profile settings. It does not send a deletion request to AI providers, Apple or Apphud, and it does not cancel a subscription. Limited free-use records may remain on the device to enforce the Application's free allowances. Copies you export or save outside Lovira, and any device backups, must be managed separately.",
+        "To request deletion of personal data held by the Service Provider, withdraw consent, or exercise your rights, contact recruitment@marissagallagher.com. You may need to contact independent third-party providers about information they control. Manage or cancel App Store subscriptions separately through your Apple account settings; deleting the Application or its local data does not cancel them."
+      ]
+    },
+    {
+      "title": "Data Retention Policy",
+      "paragraphs": [
+        "The Service Provider retains personal data based on its necessity for the stated purposes. The following schedule applies to information held by the Service Provider; information held independently by third-party providers is subject to their applicable retention practices and legal obligations.",
+        "User Provided Data: retained for the duration of your use of the Application plus 12 months thereafter, unless longer retention is required by law or an applicable deletion request requires earlier deletion.",
+        "Automatically Collected Data: retained for up to 24 months from collection, unless longer retention is required for legal compliance.",
+        "Aggregated and Anonymized Data: retained indefinitely where it no longer identifies you. Data required for legal compliance is retained as long as required by applicable law.",
+        "Local chat and media storage generally remains on your device until you remove it through the Application or manage the Application's storage; messages may also expire according to your disappearing-message settings. Local free-use records, exported copies and device backups may be subject to the separate controls described above. The Application's local deletion controls do not set the retention periods of remote AI or purchase services.",
+        "You may request deletion of personal data, subject to any legal obligation to retain it. If you want the Service Provider to delete User Provided Data submitted through the Application, contact recruitment@marissagallagher.com. Some User Provided Data may be required for the selected features to function properly."
+      ]
+    },
+    {
+      "title": "Children and Age Restrictions",
+      "paragraphs": [
+        "The Application is intended only for adults aged 18 or older, or any higher minimum age required by applicable law. The Service Provider does not knowingly solicit personal data from children or market the Application to them. Parental or guardian consent does not make a person under 18 eligible to use Lovira.",
+        "Anyone under 18 must not use the Application or submit personal information through it. Parents and legal guardians are encouraged to monitor children's Internet usage. If you have reason to believe that a child has provided personal information through the Application or its services, contact recruitment@marissagallagher.com so the Service Provider can take appropriate action."
+      ]
+    },
+    {
+      "title": "Security",
+      "paragraphs": [
+        "The Service Provider is concerned about safeguarding the confidentiality of your information and provides physical, electronic and procedural safeguards appropriate to the information it processes and maintains. No method of storage or transmission is completely secure, and this policy does not guarantee absolute confidentiality or security.",
+        "The optional app lock uses your device's authentication system, such as Face ID, Touch ID or a device passcode. Lovira receives an authentication result, not your biometric templates or device passcode. This local lock does not prevent the processing of content that you choose to send to remote AI services. You remain responsible for securing your device and any exported copies of your information."
+      ]
+    },
+    {
+      "title": "Data Breach Notification",
+      "paragraphs": [
+        "If a data breach occurs that affects your personal data, the Service Provider will notify you in accordance with applicable legal requirements, including, where required, information about the nature of the breach and the steps being taken to address it."
+      ]
+    },
+    {
+      "title": "Changes",
+      "paragraphs": [
+        "The Service Provider may update this Privacy Policy from time to time. The Service Provider will notify you of material changes by posting the updated Privacy Policy with an effective date. Where required by law, the Service Provider will seek your consent to material changes before they take effect.",
+        "Previous versions of this Privacy Policy will be maintained and made available upon request by contacting recruitment@marissagallagher.com.",
+        "This privacy policy is effective as of 2026-11-17."
+      ]
+    },
+    {
+      "title": "Your Consent",
+      "paragraphs": [
+        "Where processing is based on consent, you provide that consent by affirmatively opting in to the relevant feature or action. You may withdraw consent at any time without affecting processing carried out before withdrawal. Processing based on other lawful bases is carried out as described above."
+      ]
+    },
+    {
+      "title": "Contact Us",
+      "paragraphs": [
+        "If you have any questions regarding privacy while using the Application or the Service Provider's practices, contact Marissa at recruitment@marissagallagher.com."
+      ]
+    }
+  ]
+}
