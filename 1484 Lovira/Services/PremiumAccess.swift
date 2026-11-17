@@ -99,7 +99,6 @@ enum PremiumSetup {
                 apiKey: apiKey,
                 supportedLanguages: [.en, .ru],
                 defaultLanguage: .en,
-                shouldLogout: true,
                 fallbackFileName: "pk_62318d058639b2e1352d124d"
             ))
     }
