@@ -1,9 +1,22 @@
+import Darwin
 import SwiftUI
+import UIKit
 
 struct MainTabView: View {
     @Environment(AppModel.self) private var model
 
     var body: some View {
+        if #available(iOS 18.0, *), DuoDevice.isCurrent {
+            DuoTabView(selectedTab: model.selectedTab) { tab in
+                nativeContent(for: tab)
+            }
+            .ignoresSafeArea(.container)
+        } else {
+            customTabs
+        }
+    }
+
+    private var customTabs: some View {
         ZStack {
             ForEach(AppTab.allCases) { tab in
                 let isSelected = model.selectedTab == tab
@@ -22,6 +35,15 @@ struct MainTabView: View {
                 .allowsHitTesting(isSelected)
                 .accessibilityHidden(!isSelected)
             }
+        }
+    }
+
+    private func nativeContent(for tab: AppTab) -> some View {
+        NavigationStack(path: model.path(for: tab)) {
+            root(for: tab)
+                .navigationDestination(for: AppRoute.self) { route in
+                    destination(for: route)
+                }
         }
     }
 
@@ -50,6 +72,27 @@ struct MainTabView: View {
             ScenariosView(companionId: id)
         }
     }
+}
+
+private enum DuoDevice {
+    private static let modelIdentifier = "iPhone19,4"
+
+    static let isCurrent: Bool = {
+        guard UIDevice.current.userInterfaceIdiom == .phone else { return false }
+
+        #if targetEnvironment(simulator)
+            return ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] == modelIdentifier
+        #else
+            var systemInfo = utsname()
+            guard uname(&systemInfo) == 0 else { return false }
+            let capacity = MemoryLayout.size(ofValue: systemInfo.machine)
+            return withUnsafePointer(to: &systemInfo.machine) { pointer in
+                pointer.withMemoryRebound(to: CChar.self, capacity: capacity) {
+                    String(cString: $0) == modelIdentifier
+                }
+            }
+        #endif
+    }()
 }
 
 struct LoviraTabBar: View {
