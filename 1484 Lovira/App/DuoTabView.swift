@@ -10,8 +10,8 @@ struct DuoTabView<Content: View>: UIViewControllerRepresentable {
     let selectedTab: AppTab
     let content: (AppTab) -> Content
 
-    func makeCoordinator() -> Coordinator {
-        Coordinator(model: model)
+    func makeCoordinator() -> DuoTabCoordinator {
+        DuoTabCoordinator(model: model)
     }
 
     func makeUIViewController(context: Context) -> UITabBarController {
@@ -24,7 +24,7 @@ struct DuoTabView<Content: View>: UIViewControllerRepresentable {
             title: String(localized: "Create character"),
             image: UIImage(systemName: "plus.circle.fill")?
                 .withTintColor(UIColor(Theme.pink), renderingMode: .alwaysOriginal),
-            identifier: Coordinator.createIdentifier
+            identifier: DuoTabCoordinator.createIdentifier
         ) { _ in
             UIViewController()
         }
@@ -41,7 +41,7 @@ struct DuoTabView<Content: View>: UIViewControllerRepresentable {
 
         #if compiler(>=6.4)
             if #available(iOS 27.0, *) {
-                controller.prominentTabIdentifier = Coordinator.createIdentifier
+                controller.prominentTabIdentifier = DuoTabCoordinator.createIdentifier
             }
         #endif
 
@@ -64,36 +64,37 @@ struct DuoTabView<Content: View>: UIViewControllerRepresentable {
             return UIHostingController(rootView: root)
         }
     }
+}
 
-    final class Coordinator: NSObject, UITabBarControllerDelegate {
-        static var createIdentifier: String { "create" }
+@available(iOS 18.0, *)
+final class DuoTabCoordinator: NSObject, UITabBarControllerDelegate {
+    static let createIdentifier = "create"
 
-        var model: AppModel
+    var model: AppModel
 
-        init(model: AppModel) {
-            self.model = model
-        }
+    init(model: AppModel) {
+        self.model = model
+    }
 
-        func tabBarController(_ tabBarController: UITabBarController, shouldSelectTab tab: UITab) -> Bool {
-            if tab.identifier == Self.createIdentifier {
-                Haptics.tap()
-                model.requestCreate()
-                return false
-            }
-
-            guard let appTab = AppTab(rawValue: tab.identifier) else { return false }
-            if tabBarController.selectedTab === tab {
-                model.path(for: appTab).wrappedValue.removeAll()
-                return false
-            }
-
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelectTab tab: UITab) -> Bool {
+        if tab.identifier == Self.createIdentifier {
             Haptics.tap()
-            return true
+            model.requestCreate()
+            return false
         }
 
-        func tabBarController(_ tabBarController: UITabBarController, didSelectTab selectedTab: UITab, previousTab: UITab?) {
-            guard let appTab = AppTab(rawValue: selectedTab.identifier) else { return }
-            model.selectedTab = appTab
+        guard let appTab = AppTab(rawValue: tab.identifier) else { return false }
+        if tabBarController.selectedTab === tab {
+            model.path(for: appTab).wrappedValue.removeAll()
+            return false
         }
+
+        Haptics.tap()
+        return true
+    }
+
+    func tabBarController(_ tabBarController: UITabBarController, didSelectTab selectedTab: UITab, previousTab: UITab?) {
+        guard let appTab = AppTab(rawValue: selectedTab.identifier) else { return }
+        model.selectedTab = appTab
     }
 }
