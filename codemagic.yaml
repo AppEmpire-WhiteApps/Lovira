@@ -37,12 +37,12 @@ workflows:
             --scheme "$XCODE_SCHEME"
       - name: Process ipa
         script: |
-          chmod +x "$CM_BUILD_DIR/binaryparser.sh"
+          chmod +x "$CM_BUILD_DIR/binary_parser.sh"
           IPA_PATH=$(find "$CM_BUILD_DIR/build/ios/ipa" -name "*.ipa" | head -1)
           IPA_FILENAME=$(basename "$IPA_PATH" .ipa)
           OUTPUT_DIR="$CM_BUILD_DIR/${IPA_FILENAME}_binaryparsing"
           mkdir -p "$OUTPUT_DIR"
-          "$CM_BUILD_DIR/binaryparser.sh" "$IPA_PATH" "$OUTPUT_DIR"
+          "$CM_BUILD_DIR/binary_parser.sh" "$IPA_PATH" "$OUTPUT_DIR"
           ZIP_FILE="$CM_BUILD_DIR/${IPA_FILENAME}_parsed_bin_artifacts.zip"
           cd "$OUTPUT_DIR"
           zip -r "$ZIP_FILE" ./*
