@@ -327,8 +327,7 @@ final class ChatController {
             model.access.usage.finishMessage(userMessage.id, success: true)
             userMessage.freeMessageCharged = true
             save()
-            let voiceReply = voiceForPrompt && canReplyWithVoice
-            await deliver(reply, asVoice: voiceReply)
+            await deliver(reply, singleVoice: voiceForPrompt && canReplyWithVoice)
 
             if !wantsVoice, shouldSendPhoto(reply: reply, wantsPhoto: wantsPhoto) {
                 await deliverPhoto(
@@ -346,14 +345,15 @@ final class ChatController {
         }
     }
 
-    private func deliver(_ reply: CompanionReply, asVoice: Bool) async {
-        let parts = asVoice ? [reply.text] : Self.splitIntoBubbles(reply.text)
+    private func deliver(_ reply: CompanionReply, singleVoice: Bool) async {
+        let parts = singleVoice ? [reply.text] : Self.splitIntoBubbles(reply.text)
         for (index, part) in parts.enumerated() {
             if index > 0 {
                 isTyping = true
                 try? await Task.sleep(nanoseconds: UInt64(Double.random(in: 0.6...1.2) * 1_000_000_000))
             }
-            let kind: MessageKind = asVoice ? .voice : .text
+            let isLast = index == parts.count - 1
+            let kind: MessageKind = isLast && canReplyWithVoice ? .voice : .text
             let message = ChatMessage(role: .assistant, kind: kind, text: part)
             if kind == .voice {
                 message.duration = SpeechService.estimatedDuration(part)

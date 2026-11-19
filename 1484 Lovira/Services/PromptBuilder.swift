@@ -48,7 +48,7 @@ enum PromptBuilder {
                 """
             )
         } else {
-            lines.append("This reply will be sent as text. Do not claim that you are sending a voice message.")
+            lines.append("Do not claim that you are recording or sending a voice message.")
         }
         if photoMessage {
             lines.append(
