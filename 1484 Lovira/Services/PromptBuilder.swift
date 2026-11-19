@@ -47,6 +47,8 @@ enum PromptBuilder {
                 2-4 sentences, without emoji or *actions*, and never mention typing or text. Set send_photo to false.
                 """
             )
+        } else {
+            lines.append("This reply will be sent as text. Do not claim that you are sending a voice message.")
         }
         if photoMessage {
             lines.append(
@@ -151,12 +153,13 @@ enum PromptBuilder {
 
     /// True when the user's text asks for a voice message.
     static func isVoiceRequest(_ text: String) -> Bool {
-        let lowered = text.lowercased()
-        let keywords = [
-            "voice message", "voice note", "send audio", "send a voice", "send me a voice", "your voice",
-            "голосов", "аудио", "твой голос", "запиши мне",
+        let requestPatterns = [
+            #"\b(?:send|record)\s+(?:me\s+)?(?:an?\s+)?(?:voice\s+(?:message|note)|audio(?:\s+(?:message|clip))?)\b"#,
+            #"\b(?:reply|respond|answer)\s+(?:to me\s+)?(?:by voice|with (?:an?\s+)?(?:voice\s+(?:message|note)|audio))\b"#,
+            #"\b(?:пришли|отправь|запиши)\s+(?:мне\s+)?(?:голосов(?:ое|ое сообщение)|аудио(?:сообщение)?)\b"#,
+            #"\bответь\s+(?:мне\s+)?(?:голосом|голосовым(?: сообщением)?)\b"#,
         ]
-        return keywords.contains { lowered.contains($0) }
+        return requestPatterns.contains { text.range(of: $0, options: [.regularExpression, .caseInsensitive]) != nil }
     }
 
     /// True when the user's text asks for a photo.

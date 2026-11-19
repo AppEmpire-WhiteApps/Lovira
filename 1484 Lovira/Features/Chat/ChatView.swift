@@ -9,6 +9,15 @@ struct ChatView: View {
     @State private var controller: ChatController?
 
     var body: some View {
+        if #available(iOS 18.0, *) {
+            // The navigation container owns the area below the destination's composer.
+            content.containerBackground(Theme.backgroundSecondary, for: .navigation)
+        } else {
+            content
+        }
+    }
+
+    private var content: some View {
         Group {
             if let controller {
                 ChatContentView(controller: controller)

@@ -208,7 +208,7 @@ struct ProfileView: View {
                 tint: Theme.pink,
                 title: "Voice replies",
                 subtitle: LocalizedText(
-                    "She answers your voice messages with her voice", ru: "Она отвечает голосом на твои голосовые"
+                    "She replies with a voice message only when you ask", ru: "Она отвечает голосовым только по твоей просьбе"
                 ).value,
                 isOn: voiceRepliesBinding
             )

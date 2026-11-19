@@ -51,7 +51,7 @@ final class ChatController {
 
     @discardableResult
     func sendText(_ text: String, wantsVoice: Bool = false) -> Bool {
-        let intent = Self.requestedMedia(for: text, voice: wantsVoice)
+        let intent = requestedMedia(for: text, voice: wantsVoice)
         let wantsVoice = intent.voice
         let wantsPhoto = intent.photo
         let message = ChatMessage(role: .user, kind: .text, text: text)
@@ -71,6 +71,13 @@ final class ChatController {
     }
 
     func requestVoice() {
+        guard model.profile.autoVoiceReplies else {
+            model.showToast(
+                LocalizedText("Turn on Voice replies in Settings", ru: "Включи голосовые ответы в настройках").value,
+                icon: "waveform"
+            )
+            return
+        }
         sendText(LocalizedText("Send me a voice message 🎙️", ru: "Запиши мне голосовое 🎙️").value, wantsVoice: true)
     }
 
@@ -120,7 +127,7 @@ final class ChatController {
 
     func sendVoice(url: URL, duration: TimeInterval) {
         let message = ChatMessage(role: .user, kind: .voice, text: "", status: .sending)
-        guard beginRequest(message, wantsVoice: true) else { return }
+        guard beginRequest(message) else { return }
         guard let file = try? MediaStore.importFile(at: url) else {
             model.access.usage.finishMessage(message.id, success: false)
             return
@@ -146,7 +153,8 @@ final class ChatController {
             message.text = transcript
             message.status = .sent
             save()
-            await respond(to: message, wantsPhoto: PromptBuilder.isPhotoRequest(transcript), wantsVoice: true)
+            let intent = requestedMedia(for: transcript)
+            await respond(to: message, wantsPhoto: intent.photo, wantsVoice: intent.voice)
         } catch {
             model.access.usage.finishMessage(message.id, success: false)
             isTyping = false
@@ -168,14 +176,14 @@ final class ChatController {
             return
         }
         if message.kind == .voice, message.transcript == nil {
-            guard beginRequest(message, wantsVoice: true) else { return }
+            guard beginRequest(message) else { return }
             message.status = .sending
             Task {
                 await transcribeAndRespond(message)
             }
             return
         }
-        let intent = Self.requestedMedia(for: message.text, voice: message.kind == .voice)
+        let intent = requestedMedia(for: message.text)
         let wantsVoice = intent.voice
         let wantsPhoto = intent.photo
         guard beginRequest(message, wantsVoice: wantsVoice, wantsPhoto: wantsPhoto) else { return }
@@ -201,7 +209,7 @@ final class ChatController {
     func beginRequest(_ message: ChatMessage, wantsVoice: Bool = false, wantsPhoto: Bool = false) -> Bool {
         guard AIConsentStore.shared.request() else { return false }
         guard model.authorizeCharacter(companion.id) else { return false }
-        if wantsVoice, !model.authorize(.voice) { return false }
+        if (wantsVoice || message.kind == .voice), !model.authorize(.voice) { return false }
         guard
             model.access.usage.reserveMessage(
                 message.id, premium: model.access.isPremium,
@@ -221,8 +229,8 @@ final class ChatController {
         return true
     }
 
-    static func requestedMedia(for text: String, voice: Bool = false) -> (voice: Bool, photo: Bool) {
-        let voice = voice || PromptBuilder.isVoiceRequest(text)
+    private func requestedMedia(for text: String, voice: Bool = false) -> (voice: Bool, photo: Bool) {
+        let voice = model.profile.autoVoiceReplies && (voice || PromptBuilder.isVoiceRequest(text))
         let photo = !voice && PromptBuilder.isPhotoRequest(text)
         return (voice, photo)
     }
@@ -270,6 +278,10 @@ final class ChatController {
 
     // MARK: AI reply
 
+    private var canReplyWithVoice: Bool {
+        model.profile.autoVoiceReplies && model.access.isPremium
+    }
+
     private func respond(
         to userMessage: ChatMessage,
         wantsPhoto: Bool,
@@ -284,14 +296,15 @@ final class ChatController {
         isTyping = true
         let lastUserText = messages.last(where: { $0.role == .user && !$0.text.isEmpty })?.text ?? ""
         let recentUserTexts = messages.filter { $0.role == .user && !$0.text.isEmpty }.suffix(6).map(\.text)
+        let voiceForPrompt = wantsVoice && canReplyWithVoice
         let system = PromptBuilder.systemPrompt(
             companion: companion,
             userName: model.profile.displayName,
             facts: memoryFacts().map(\.text),
             scenario: scenario,
             replyLanguage: PromptBuilder.languageName(for: recentUserTexts),
-            voiceMessage: wantsVoice,
-            photoMessage: wantsPhoto && !wantsVoice
+            voiceMessage: voiceForPrompt,
+            photoMessage: wantsPhoto && !voiceForPrompt
         )
         var history = buildHistory()
         if let imageJPEG, !history.isEmpty {
@@ -314,8 +327,8 @@ final class ChatController {
             model.access.usage.finishMessage(userMessage.id, success: true)
             userMessage.freeMessageCharged = true
             save()
-            let voiceReply = model.access.isPremium && (wantsVoice || model.profile.autoVoiceReplies)
-            await deliver(reply, asVoice: voiceReply, singleVoice: wantsVoice)
+            let voiceReply = voiceForPrompt && canReplyWithVoice
+            await deliver(reply, asVoice: voiceReply)
 
             if !wantsVoice, shouldSendPhoto(reply: reply, wantsPhoto: wantsPhoto) {
                 await deliverPhoto(
@@ -333,16 +346,14 @@ final class ChatController {
         }
     }
 
-    /// `singleVoice` sends the whole reply as one voice message (an explicit voice request).
-    private func deliver(_ reply: CompanionReply, asVoice: Bool, singleVoice: Bool) async {
-        let parts = singleVoice ? [reply.text] : Self.splitIntoBubbles(reply.text)
+    private func deliver(_ reply: CompanionReply, asVoice: Bool) async {
+        let parts = asVoice ? [reply.text] : Self.splitIntoBubbles(reply.text)
         for (index, part) in parts.enumerated() {
             if index > 0 {
                 isTyping = true
                 try? await Task.sleep(nanoseconds: UInt64(Double.random(in: 0.6...1.2) * 1_000_000_000))
             }
-            let isLast = index == parts.count - 1
-            let kind: MessageKind = asVoice && isLast ? .voice : .text
+            let kind: MessageKind = asVoice ? .voice : .text
             let message = ChatMessage(role: .assistant, kind: kind, text: part)
             if kind == .voice {
                 message.duration = SpeechService.estimatedDuration(part)
